@@ -25,6 +25,7 @@
 #include<string>
 #include<thread>
 #include <mutex>
+#include <functional>
 #include<opencv2/core/core.hpp>
 
 #include "Tracking.h"
@@ -76,7 +77,8 @@ public:
 		const bool bUseViewer = true,
 		const string &mapFileName=string(),
 		const operationMode mode=System::MAPPING,
-		bool doOfflineMapping=false
+		bool doOfflineMapping=false,
+        std::function<void(KeyFrame*)> callback=[](KeyFrame*){}
     );
 
     // Proccess the given stereo frame. Images must be synchronized and rectified.

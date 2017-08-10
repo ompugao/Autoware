@@ -28,6 +28,7 @@
 #include "KeyFrameDatabase.h"
 
 #include <mutex>
+#include <functional>
 
 
 namespace ORB_SLAM2
@@ -73,6 +74,10 @@ public:
     int KeyframesInQueue(){
         unique_lock<std::mutex> lock(mMutexNewKFs);
         return mlNewKeyFrames.size();
+    }
+
+    void SetNewKeyFrameCallback(std::function<void(KeyFrame*)> callback) {
+        mCallbackNewKeyFrame = callback;
     }
 
     std::mutex localMappingRunMutex;
@@ -128,6 +133,7 @@ protected:
 
     bool mbAcceptKeyFrames;
     std::mutex mMutexAccept;
+    std::function<void(KeyFrame*)> mCallbackNewKeyFrame;
 };
 
 } //namespace ORB_SLAM

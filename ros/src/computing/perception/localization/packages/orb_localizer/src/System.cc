@@ -34,7 +34,8 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
                const bool bUseViewer,
 			   const string &mpMapFileName,
 			   const operationMode mode,
-			   bool doOfflineMapping):
+			   bool doOfflineMapping,
+               std::function<void(KeyFrame*)> callback):
 				mSensor(sensor),
 				mapFileName(mpMapFileName),
 				mbReset(false),
@@ -136,6 +137,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
 
 	    mpLocalMapper->SetTracker(mpTracker);
 	    mpLocalMapper->SetLoopCloser(mpLoopCloser);
+        mpLocalMapper->SetNewKeyFrameCallback(callback);
 
 	    mpLoopCloser->SetTracker(mpTracker);
 	    mpLoopCloser->SetLocalMapper(mpLocalMapper);

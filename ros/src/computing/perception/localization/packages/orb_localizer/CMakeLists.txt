@@ -10,6 +10,7 @@ find_package (catkin REQUIRED
 		cv_bridge
 		message_generation
 		std_msgs
+        pcl_conversions
 )
 
 LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules)
@@ -162,6 +163,34 @@ target_link_libraries (
 		${LINK_LIBRARIES}
 )
 
+
+add_executable (
+	stereo_proc
+		nodes/stereo_proc/stereo_proc.cpp
+		nodes/common.cpp
+)
+
+add_dependencies(stereo_proc orb_localizer_generate_messages_cpp)
+
+target_link_libraries (
+	stereo_proc
+		${ORB_BIN_LINKS}
+		${LINK_LIBRARIES}
+)
+
+add_executable (
+	localmap_publisher
+		nodes/localmap_publisher/localmap_publisher.cpp
+		nodes/common.cpp
+)
+
+add_dependencies(localmap_publisher orb_localizer_generate_messages_cpp)
+
+target_link_libraries (
+	localmap_publisher
+		${ORB_BIN_LINKS}
+		${LINK_LIBRARIES}
+)
 
 add_executable (
 	orb_matching_pf
